@@ -1,0 +1,64 @@
+# IDE / user state
+.vs/
+.idea/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build output
+bin/
+obj/
+**/bin/
+**/obj/
+Debug/
+Release/
+artifacts/
+build/
+dist/
+
+# Test and coverage output
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+
+# Local data
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# Secrets and machine-local config
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+*.p12
+credentials.json
+secrets.json
+appsettings.Development.json
+
+# Logs and temporary files
+*.log
+logs/
+log/
+*.tmp
+*.temp
+tmp/
+temp/
+*.bak
+*.backup
+
+# Debug/media captures
+screenshots/
+captures/
+debug/
+
+# OS files
+.DS_Store
+Thumbs.db

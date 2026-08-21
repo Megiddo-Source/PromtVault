@@ -1,0 +1,408 @@
+<Window x:Class="PromptVault.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+        Title="PromptVault"
+        Width="1440"
+        Height="860"
+        MinWidth="1120"
+        MinHeight="700"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        ResizeMode="CanResize"
+        StateChanged="Window_StateChanged">
+    <shell:WindowChrome.WindowChrome>
+        <shell:WindowChrome CaptionHeight="46"
+                            ResizeBorderThickness="6"
+                            CornerRadius="0"
+                            GlassFrameThickness="0"
+                            UseAeroCaptionButtons="False" />
+    </shell:WindowChrome.WindowChrome>
+
+    <Grid Background="{StaticResource WindowBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="46" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Custom title bar -->
+        <Border Grid.Row="0"
+                Background="{StaticResource TitleBarBackgroundBrush}"
+                BorderBrush="{StaticResource BorderBrush}"
+                BorderThickness="0,0,0,1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" Margin="14,0,0,0" VerticalAlignment="Center">
+                    <Border Width="26" Height="26" CornerRadius="7" Background="{StaticResource AccentSoftBrush}" BorderBrush="#2D6553" BorderThickness="1">
+                        <TextBlock Text="P" Foreground="{StaticResource AccentBrush}" FontWeight="Bold" FontSize="14" HorizontalAlignment="Center" />
+                    </Border>
+                    <TextBlock Text="PromptVault" Margin="10,0,0,0" FontWeight="SemiBold" FontSize="13.5" />
+                    <Border Margin="9,0,0,0" Padding="6,2" CornerRadius="5" Background="{StaticResource ControlBackgroundBrush}">
+                        <TextBlock Text="LOCAL" FontSize="9" FontWeight="Bold" Foreground="{StaticResource MutedTextBrush}" />
+                    </Border>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" shell:WindowChrome.IsHitTestVisibleInChrome="True">
+                    <Button Content="&#xE921;" ToolTip="Minimizar" Click="MinimizeButton_Click" Style="{StaticResource TitleBarButtonStyle}" />
+                    <Button x:Name="MaximizeButton" Content="&#xE922;" ToolTip="Maximizar" Click="MaximizeButton_Click" Style="{StaticResource TitleBarButtonStyle}" />
+                    <Button Content="&#xE8BB;" ToolTip="Cerrar" Click="CloseButton_Click" Style="{StaticResource CloseTitleBarButtonStyle}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Application content -->
+        <Grid Grid.Row="1" Margin="22,18,22,14">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="16" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Header and search -->
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="12" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                    <TextBlock Text="Biblioteca de prompts" Style="{StaticResource PageTitleStyle}" />
+                    <TextBlock Text="Organiza, encuentra y reutiliza tus mejores instrucciones."
+                               Margin="0,4,0,0"
+                               Foreground="{StaticResource MutedTextBrush}"
+                               FontSize="12.5" />
+                </StackPanel>
+
+                <Border Grid.Column="2"
+                        Height="44"
+                        MaxWidth="650"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource SearchContainerStyle}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="&#xE721;"
+                                   FontFamily="Segoe MDL2 Assets"
+                                   FontSize="14"
+                                   Foreground="{StaticResource MutedTextBrush}"
+                                   Margin="0,0,10,0" />
+
+                        <Grid Grid.Column="1">
+                            <TextBox x:Name="SearchBox"
+                                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                                     ToolTip="Busca por título, contenido, categoría, etiqueta o modelo"
+                                     KeyDown="SearchBox_KeyDown"
+                                     Style="{StaticResource BorderlessTextBoxStyle}" />
+                            <TextBlock Text="Buscar prompts, etiquetas, categorías o modelos..."
+                                       IsHitTestVisible="False"
+                                       Foreground="{StaticResource SubtleTextBrush}"
+                                       FontSize="12.5">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding SearchText}" Value="">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </Grid>
+
+                        <Button Grid.Column="2"
+                                Width="34"
+                                Height="32"
+                                Padding="0"
+                                Content="&#xE721;"
+                                FontFamily="Segoe MDL2 Assets"
+                                FontWeight="Normal"
+                                ToolTip="Buscar"
+                                Command="{Binding SearchCommand}"
+                                Style="{StaticResource GhostButtonStyle}" />
+                    </Grid>
+                </Border>
+
+                <Button Grid.Column="4"
+                        Height="44"
+                        MinWidth="138"
+                        Command="{Binding NewPromptCommand}"
+                        Style="{StaticResource PrimaryButtonStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE710;" FontFamily="Segoe MDL2 Assets" FontSize="12" Foreground="#07110D" />
+                        <TextBlock Text="Nuevo prompt" Margin="8,0,0,0" Foreground="#07110D" FontWeight="SemiBold" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+
+            <!-- Three-pane workspace -->
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="218" />
+                    <ColumnDefinition Width="14" />
+                    <ColumnDefinition Width="1.75*" MinWidth="440" />
+                    <ColumnDefinition Width="14" />
+                    <ColumnDefinition Width="1.15*" MinWidth="345" MaxWidth="470" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Sidebar -->
+                <Border Grid.Column="0" Style="{StaticResource PanelBorderStyle}" Padding="12">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="BIBLIOTECA" Style="{StaticResource SectionTitleStyle}" Margin="10,4,0,10" />
+
+                        <ListBox Grid.Row="1"
+                                 ItemsSource="{Binding FilterOptions}"
+                                 SelectedItem="{Binding SelectedFilter}"
+                                 Style="{StaticResource SidebarListBoxStyle}"
+                                 ItemContainerStyle="{StaticResource SidebarItemStyle}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="24" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" FontFamily="Segoe MDL2 Assets" FontSize="12" Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Text" Value="&#xE8A9;" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Label}" Value="Favoritos">
+                                                            <Setter Property="Text" Value="&#xE734;" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Label}" Value="Más usados">
+                                                            <Setter Property="Text" Value="&#xE9D9;" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Label}" Value="Recientes">
+                                                            <Setter Property="Text" Value="&#xE81C;" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                        <TextBlock Grid.Column="1"
+                                                   Text="{Binding Label}"
+                                                   Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}"
+                                                   FontSize="13"
+                                                   FontWeight="SemiBold" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                        <StackPanel Grid.Row="3">
+                            <Separator />
+                            <TextBlock Text="DATOS" Style="{StaticResource SectionTitleStyle}" Margin="10,0,0,8" />
+                            <Button Command="{Binding ImportCommand}" Style="{StaticResource GhostButtonStyle}" HorizontalContentAlignment="Left" Margin="0,0,0,3">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE8B5;" FontFamily="Segoe MDL2 Assets" FontSize="12" />
+                                    <TextBlock Text="Importar biblioteca" Margin="9,0,0,0" />
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding ExportCommand}" Style="{StaticResource GhostButtonStyle}" HorizontalContentAlignment="Left">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE898;" FontFamily="Segoe MDL2 Assets" FontSize="12" />
+                                    <TextBlock Text="Exportar copia" Margin="9,0,0,0" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Prompt library -->
+                <Border Grid.Column="2" Style="{StaticResource PanelBorderStyle}" Padding="16,14,16,10">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="PROMPTS" Style="{StaticResource SectionTitleStyle}" />
+                                <Border Margin="9,0,0,0" Padding="7,2" CornerRadius="6" Background="{StaticResource ControlBackgroundBrush}">
+                                    <TextBlock Text="{Binding ResultCountText}" Foreground="{StaticResource MutedTextBrush}" FontSize="10.5" />
+                                </Border>
+                            </StackPanel>
+                            <TextBlock Grid.Column="1" Text="Selecciona uno para ver el detalle" Foreground="{StaticResource SubtleTextBrush}" FontSize="11" />
+                        </Grid>
+
+                        <ListBox Grid.Row="2"
+                                 ItemsSource="{Binding Prompts}"
+                                 SelectedItem="{Binding SelectedPrompt}"
+                                 ItemContainerStyle="{StaticResource PromptCardItemStyle}"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                 ScrollViewer.VerticalScrollBarVisibility="Auto">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Title}" FontWeight="SemiBold" FontSize="14" TextTrimming="CharacterEllipsis" />
+                                            <TextBlock Text="{Binding FavoriteDisplay}" Margin="8,0,0,0" Foreground="#F5C451" FontSize="13" />
+                                        </StackPanel>
+
+                                        <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource BadgeStyle}" Margin="12,0,0,0" Padding="7,3">
+                                            <TextBlock Text="{Binding Model}" Foreground="{StaticResource MutedTextBrush}" FontSize="10.5" />
+                                        </Border>
+
+                                        <TextBlock Grid.Row="1" Grid.ColumnSpan="2"
+                                                   Text="{Binding Description}"
+                                                   Margin="0,6,0,10"
+                                                   Foreground="{StaticResource MutedTextBrush}"
+                                                   FontSize="12"
+                                                   TextTrimming="CharacterEllipsis" />
+
+                                        <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
+                                            <Border Style="{StaticResource AccentBadgeStyle}" Padding="7,3" Margin="0,0,6,0">
+                                                <TextBlock Text="{Binding Category.Name, TargetNullValue='Sin categoría'}" Foreground="{StaticResource AccentBrush}" FontSize="10.5" />
+                                            </Border>
+                                            <Border Style="{StaticResource BadgeStyle}" Padding="7,3" Margin="0">
+                                                <TextBlock Text="{Binding TagsDisplay}" Foreground="{StaticResource MutedTextBrush}" FontSize="10.5" TextTrimming="CharacterEllipsis" MaxWidth="260" />
+                                            </Border>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0">
+                                            <TextBlock Text="&#xE9D9;" FontFamily="Segoe MDL2 Assets" FontSize="10" Foreground="{StaticResource SubtleTextBrush}" />
+                                            <TextBlock Text="{Binding UseCount}" Margin="5,0,0,0" Foreground="{StaticResource SubtleTextBrush}" FontSize="10.5" />
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </Border>
+
+                <!-- Detail pane -->
+                <Border Grid.Column="4" Style="{StaticResource PanelBorderStyle}" Padding="17">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="12" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="DETALLE" Style="{StaticResource SectionTitleStyle}" />
+                            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                <Button Width="34" Height="32" Padding="0" Content="&#xE70F;" ToolTip="Editar" Command="{Binding EditPromptCommand}" FontFamily="Segoe MDL2 Assets" FontWeight="Normal" Style="{StaticResource GhostButtonStyle}" />
+                                <Button Width="34" Height="32" Padding="0" Margin="4,0,0,0" Content="&#xE734;" ToolTip="Añadir o quitar de favoritos" Command="{Binding ToggleFavoriteCommand}" FontFamily="Segoe MDL2 Assets" FontWeight="Normal" Style="{StaticResource GhostButtonStyle}" />
+                                <Button Width="34" Height="32" Padding="0" Margin="4,0,0,0" Content="&#xE74D;" ToolTip="Eliminar" Command="{Binding DeletePromptCommand}" FontFamily="Segoe MDL2 Assets" FontWeight="Normal" Style="{StaticResource DangerButtonStyle}" />
+                            </StackPanel>
+                        </Grid>
+
+                        <TextBlock Grid.Row="1"
+                                   Text="{Binding SelectedPrompt.Title, TargetNullValue='Selecciona un prompt'}"
+                                   Margin="0,13,0,0"
+                                   FontSize="21"
+                                   FontWeight="SemiBold"
+                                   TextWrapping="Wrap" />
+
+                        <TextBlock Grid.Row="2"
+                                   Margin="0,7,0,0"
+                                   Text="{Binding SelectedPrompt.Description, TargetNullValue='El contenido y sus datos aparecerán aquí.'}"
+                                   Foreground="{StaticResource MutedTextBrush}"
+                                   FontSize="12.5"
+                                   LineHeight="19"
+                                   TextWrapping="Wrap" />
+
+                        <WrapPanel Grid.Row="3" Margin="0,13,0,0">
+                            <Border Style="{StaticResource AccentBadgeStyle}">
+                                <TextBlock Text="{Binding SelectedPrompt.Category.Name, TargetNullValue='Sin categoría'}" Foreground="{StaticResource AccentBrush}" FontSize="11" />
+                            </Border>
+                            <Border Style="{StaticResource BadgeStyle}">
+                                <TextBlock Text="{Binding SelectedPrompt.TagsDisplay, TargetNullValue='Sin etiquetas'}" Foreground="{StaticResource MutedTextBrush}" FontSize="11" TextTrimming="CharacterEllipsis" MaxWidth="210" />
+                            </Border>
+                            <Border Style="{StaticResource BadgeStyle}">
+                                <TextBlock Text="{Binding SelectedPrompt.Model, TargetNullValue=General}" Foreground="{StaticResource MutedTextBrush}" FontSize="11" />
+                            </Border>
+                        </WrapPanel>
+
+                        <TextBox Grid.Row="5"
+                                 Text="{Binding SelectedPrompt.Content}"
+                                 IsReadOnly="True"
+                                 AcceptsReturn="True"
+                                 TextWrapping="Wrap"
+                                 VerticalScrollBarVisibility="Auto"
+                                 HorizontalScrollBarVisibility="Disabled"
+                                 Style="{StaticResource CodeTextBoxStyle}" />
+
+                        <StackPanel Grid.Row="6" Margin="0,13,0,0">
+                            <Grid Margin="1,0,1,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="&#xE823;" FontFamily="Segoe MDL2 Assets" FontSize="11" Foreground="{StaticResource SubtleTextBrush}" />
+                                <TextBlock Grid.Column="1" Text="{Binding SelectedPrompt.UsageSummary, TargetNullValue='Todavía no se ha utilizado'}" Margin="7,0,0,0" Foreground="{StaticResource SubtleTextBrush}" FontSize="11" TextTrimming="CharacterEllipsis" />
+                            </Grid>
+                            <Button Height="45"
+                                    Command="{Binding UsePromptCommand}"
+                                    Style="{StaticResource PrimaryButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE8C8;" FontFamily="Segoe MDL2 Assets" FontSize="12" Foreground="#07110D" />
+                                    <TextBlock Text="Usar y copiar prompt" Margin="8,0,0,0" Foreground="#07110D" FontWeight="SemiBold" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!-- Status bar -->
+            <Grid Grid.Row="3" Margin="3,12,3,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal">
+                    <Ellipse Width="6" Height="6" Fill="{StaticResource AccentBrush}" Margin="0,0,8,0" />
+                    <TextBlock Text="{Binding StatusText}" Foreground="{StaticResource MutedTextBrush}" FontSize="11" />
+                </StackPanel>
+                <TextBlock Grid.Column="1" Text="SQLite local   •   Sin cuenta   •   Datos en tu equipo" Foreground="{StaticResource SubtleTextBrush}" FontSize="11" />
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,92 @@
+{
+  "enabled": true,
+  "slug": "promptvault",
+  "public": {
+    "name_es": "PromptVault",
+    "name_en": "PromptVault",
+    "tagline_es": "Biblioteca local para organizar y reutilizar prompts de IA.",
+    "tagline_en": "A local library for organizing and reusing AI prompts.",
+    "description_es": "PromptVault es una aplicación de escritorio para Windows que permite guardar, buscar, clasificar y reutilizar prompts de IA sin depender de cuentas ni servicios externos. Incluye interfaz oscura moderna, tarjetas de prompts, categorías, etiquetas, modelo recomendado, favoritos, variables reutilizables, contador de usos e importación/exportación JSON.",
+    "description_en": "PromptVault is a Windows desktop app for saving, searching, classifying, and reusing AI prompts without relying on accounts or external services. It includes a modern dark interface, prompt cards, categories, tags, recommended models, favorites, reusable variables, usage counters, and JSON import/export.",
+    "summary_es": "Organiza prompts por categoría, etiquetas, modelo recomendado y favoritos, y reutilízalos con variables personalizadas cuando los necesites.",
+    "summary_en": "Organize prompts by category, tags, recommended model, and favorites, then reuse them with custom variables when needed.",
+    "features_es": [
+      "Biblioteca local de prompts con SQLite.",
+      "Interfaz oscura moderna con biblioteca en tarjetas.",
+      "Crear, editar y eliminar prompts.",
+      "Categorías, etiquetas y modelo recomendado.",
+      "Favoritos, más usados y recientes.",
+      "Búsqueda por título, contenido, categoría, etiqueta o modelo.",
+      "Variables reutilizables con formato {{nombre_variable}}.",
+      "Contador de usos y fecha del último uso.",
+      "Importación y exportación de copias JSON."
+    ],
+    "features_en": [
+      "Local prompt library powered by SQLite.",
+      "Modern dark interface with prompt cards.",
+      "Create, edit, and delete prompts.",
+      "Categories, tags, and recommended model.",
+      "Favorites, most used, and recent prompts.",
+      "Search by title, content, category, tag, or model.",
+      "Reusable variables with {{variable_name}} syntax.",
+      "Usage counter and last-used date.",
+      "JSON backup import and export."
+    ],
+    "use_cases_es": [
+      "Guardar prompts reutilizables para asistentes y herramientas de IA.",
+      "Clasificar prompts técnicos, creativos, de documentación, auditoría, seguridad, rendimiento o marketing.",
+      "Preparar prompts con variables para reutilizarlos en proyectos distintos.",
+      "Mantener una biblioteca local de prompts sin servidor ni cuenta."
+    ],
+    "use_cases_en": [
+      "Store reusable prompts for AI assistants and tools.",
+      "Classify technical, creative, documentation, audit, security, performance, or marketing prompts.",
+      "Prepare prompts with variables for reuse across different projects.",
+      "Keep a local prompt library without a server or account."
+    ]
+  },
+  "status": "functional_prototype",
+  "version": "0.2.0",
+  "family": "Megiddo Source Tools",
+  "category": "Productivity / Developer Tools",
+  "license": "",
+  "platforms": [
+    "Windows 10",
+    "Windows 11"
+  ],
+  "technologies": [
+    ".NET 8",
+    "WPF",
+    "SQLite",
+    "Entity Framework Core"
+  ],
+  "editions": [
+    "Local desktop"
+  ],
+  "distribution": {
+    "channel_status": "pending",
+    "primary_channel": "",
+    "gumroad_url": "",
+    "github_url": "",
+    "website_url": "",
+    "download_path": "",
+    "notes": "No public Gumroad page, GitHub release, official website, marketplace listing, or confirmed download channel was found in this repository."
+  },
+  "publicAssets": {
+    "logo": "",
+    "banner": "",
+    "screenshots": []
+  },
+  "demo": {
+    "enabled": false,
+    "type": "",
+    "path": "",
+    "status": "not_configured"
+  },
+  "review": {
+    "content_status": "needs_review",
+    "assets_status": "needs_review",
+    "distribution_status": "needs_review",
+    "last_reviewed": "2026-08-21"
+  }
+}

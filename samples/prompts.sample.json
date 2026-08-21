@@ -1,0 +1,15 @@
+[
+  {
+    "title": "Revisión de arquitectura",
+    "description": "Analiza un proyecto antes de implementar cambios.",
+    "content": "Actúa como arquitecto senior. Analiza {{nombre_proyecto}} y define cómo implementar {{objetivo}} sin romper la funcionalidad existente.",
+    "category": "Desarrollo",
+    "tags": ["arquitectura", "refactor", "desarrollo"],
+    "model": "Codex",
+    "isFavorite": true,
+    "useCount": 0,
+    "createdAt": "2026-07-22T00:00:00Z",
+    "updatedAt": "2026-07-22T00:00:00Z",
+    "lastUsedAt": null
+  }
+]
